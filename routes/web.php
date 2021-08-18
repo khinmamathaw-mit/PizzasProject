@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Foundation\Application;
 use App\Http\Controllers\PizzaController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +16,22 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');
+
 //read
-Route::get('/pizzas',
+Route::middleware(['auth:sanctum', 'verified'])->get('/pizzas',
 [PizzaController::class,'pizzas'])->name("pizzas");
 
 //display
@@ -35,3 +52,10 @@ Route::get("/pizzas/edit/{id}",
 //update form
 Route::post('/pizzas/update/{id}',
 [PizzaController::class,'update'])->name('update');
+
+//logout
+Route::get("/logout",function()
+{
+    Auth::logout();
+    return redirect()->route("login");
+})->name('logout');

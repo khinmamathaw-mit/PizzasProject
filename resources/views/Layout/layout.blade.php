@@ -44,11 +44,19 @@
         <li class="nav-item">
           <a class="nav-link" href="{{route("home") }}">Home<span class="sr-only">(current)</span></a>
         </li>
+        @auth
         <li class="nav-item">
           <a class="nav-link" href="{{ route("pizzas") }}">All Pizzas orders</a>
         </li>
-        
+        @endauth
+
+      @guest
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route("login") }}">IsAdmin?</a>
+        </li>
+      @endguest
       </ul>
+      
       <!-- Left links -->
     </div>
     <!-- Collapsible wrapper -->
@@ -56,9 +64,10 @@
     <!-- Right elements -->
     <div class="d-flex align-items-center">
       <!-- Icon -->
-      <a class="text-reset me-3" href="#">
-        <i class="fas fa-shopping-cart"></i>
-      </a>
+      @auth
+      <a class="nav-link" href="{{ route("logout") }}" style="color:black">Logout</a>
+      @endauth
+   
 
       <!-- Notifications -->
       {{-- <a

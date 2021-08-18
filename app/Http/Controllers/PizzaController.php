@@ -92,7 +92,7 @@ class PizzaController extends Controller
     {
         // return $id;
         $pizzaUpdate = Pizza::find($id);
-        // overwrite found data
+        // overwrite found data 
         $pizzaUpdate->username = $req->username;
         $pizzaUpdate->pizzaname = $req->pizzaname;
         $pizzaUpdate->topping = $req->topping;
